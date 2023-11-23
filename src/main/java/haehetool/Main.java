@@ -19,6 +19,8 @@ public class Main {
 
     //ADJUST THESE
     public static final int TIME_CLIPBOARD_REFRESH = 1000;
+    public static final String CHROMEDRIVER_PATH = "C:\\Users\\luuk7\\Desktop\\Sel\\chromedriver.exe";
+    public static final String CHROME_PROFILE_PATH = "C:\\Users\\luuk7\\AppData\\Local\\Google\\Chrome\\User Data\\Cardmarket";
 
     private static String lastClipboardContent = "";
     static ChromeDriver driver;
@@ -53,10 +55,10 @@ public class Main {
         }).start();
 
         //setup chrome driver
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\luuk7\\Desktop\\Sel\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
         ChromeOptions chromeOptions = new ChromeOptions();
-        String chromeProfilePath = "C:\\Users\\luuk7\\AppData\\Local\\Google\\Chrome\\User Data\\Cardmarket";
-        chromeOptions.addArguments("user-data-dir=" + chromeProfilePath);
+
+        chromeOptions.addArguments("user-data-dir=" + CHROME_PROFILE_PATH);
         driver = new ChromeDriver(chromeOptions);
         driver.get("https://lowlightsstudios.com/");
     }
