@@ -28,7 +28,7 @@ import java.time.Duration;
 public class Main{
 
     //ADJUST THESE
-    public static final int TIME_CLIPBOARD_REFRESH = 1000;
+    public static final int TIME_CLIPBOARD_REFRESH = 100;
     public static final String CHROMEDRIVER_PATH = "C:\\Users\\luuk7\\Desktop\\Sel\\chromedriver.exe";
     public static final String CHROME_PROFILE_PATH = "C:\\Users\\luuk7\\AppData\\Local\\Google\\Chrome\\User Data\\Cardmarket";
 
