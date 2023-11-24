@@ -1,6 +1,16 @@
 package haehetool;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,7 +25,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.time.Duration;
 
-public class Main {
+public class Main{
 
     //ADJUST THESE
     public static final int TIME_CLIPBOARD_REFRESH = 1000;
@@ -25,7 +35,7 @@ public class Main {
     private static String lastClipboardContent = "";
     static ChromeDriver driver;
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         //listen to changes of the clipboard
         new Thread(() -> {
@@ -33,17 +43,15 @@ public class Main {
             while (true) {
                 String clipboardContent = getClipboardContent();
                 if (!clipboardContent.equals(lastClipboardContent)) {
-                    System.out.println("Clipboard content changed: " + clipboardContent);
+                    System.out.println("copied code: " + clipboardContent);
                     lastClipboardContent = clipboardContent;
-                    driver.get("https://lowlightsstudios.com/cart");
-                    driver.findElement(By.id("thecheckoutbutton")).click();
 
+                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
                     By elementLocator = By.name("reductions");
-                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5)); // 10 seconds timeout
-                    WebElement elementToBePresent = wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
-                    elementToBePresent.sendKeys(lastClipboardContent);
-
-                    driver.findElement(By.xpath("//*[@id=\"Form0\"]/div[1]/div/div/div[4]/div/section/div[1]/div/div/div[2]/div/section/div/div[1]/div/button")).click();
+                    WebElement codeField = wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
+                    codeField.sendKeys(lastClipboardContent);
+                    codeField.sendKeys(Keys.ENTER);
+                    driver.findElement(By.className("paypal-buttons")).click();
                 }
 
                 try {
@@ -60,7 +68,6 @@ public class Main {
 
         chromeOptions.addArguments("user-data-dir=" + CHROME_PROFILE_PATH);
         driver = new ChromeDriver(chromeOptions);
-        driver.get("https://lowlightsstudios.com/");
     }
 
     private static String getClipboardContent() {
