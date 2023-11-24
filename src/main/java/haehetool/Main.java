@@ -47,11 +47,13 @@ public class Main{
                     lastClipboardContent = clipboardContent;
 
                     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-                    By elementLocator = By.name("reductions");
-                    WebElement codeField = wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
-                    codeField.sendKeys(lastClipboardContent);
-                    codeField.sendKeys(Keys.ENTER);
-                    driver.findElement(By.className("paypal-buttons")).click();
+                    try {
+                        By elementLocator = By.name("reductions");
+                        WebElement codeField = wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
+                        codeField.sendKeys(lastClipboardContent);
+                        codeField.sendKeys(Keys.ENTER);
+                        driver.findElement(By.className("paypal-buttons")).click();
+                    }catch (Exception ignored){}
                 }
 
                 try {
